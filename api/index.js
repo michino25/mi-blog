@@ -164,4 +164,9 @@ app.get("/test", (req, res) => {
     res.json("test ok");
 });
 
+// Define a route handler to handle requests for /favicon.ico
+app.get("/favicon.ico", (req, res) => {
+    res.status(204).end(); // Send a 204 No Content response
+});
+
 app.listen(process.env.API_PORT);
