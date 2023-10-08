@@ -11,11 +11,15 @@ export default function PostPage() {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL + "/post/" + id)
-            .then((response) => response.json())
-            .then((postInfo) => {
-                setPostInfo(postInfo);
-            });
+        try {
+            fetch(import.meta.env.VITE_API_URL + "/post/" + id)
+                .then((response) => response.json())
+                .then((postInfo) => {
+                    setPostInfo(postInfo);
+                });
+        } catch (e) {
+            console.log(e);
+        }
     }, [id]);
 
     if (!postInfo) return null;

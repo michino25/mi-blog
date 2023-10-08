@@ -1,4 +1,11 @@
 {
+    "framework": "vite",
+    "builds": [
+        {
+            "src": "*.js",
+            "use": "@vercel/node"
+        }
+    ],
     "routes": [
         {
             "src": "/",
