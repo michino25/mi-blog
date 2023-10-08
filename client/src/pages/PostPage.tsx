@@ -11,7 +11,7 @@ export default function PostPage() {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:4000/post/${id}`).then((response) => {
+        fetch(import.meta.env.VITE_API_URL + `/post/${id}`).then((response) => {
             response.json().then((postInfo) => {
                 setPostInfo(postInfo);
             });
