@@ -11,11 +11,11 @@ export default function PostPage() {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL + `/post/${id}`).then((response) => {
-            response.json().then((postInfo) => {
+        fetch(import.meta.env.VITE_API_URL + `/post/${id}`)
+            .then((response) => response.json())
+            .then((postInfo) => {
                 setPostInfo(postInfo);
             });
-        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
