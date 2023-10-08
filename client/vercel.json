@@ -17,11 +17,11 @@
             "dest": "/"
         },
         {
-            "src": "/post/:id",
+            "src": "/post",
             "dest": "/"
         },
         {
-            "src": "/edit/:id",
+            "src": "/edit",
             "dest": "/"
         }
     ]
