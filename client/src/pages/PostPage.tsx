@@ -16,8 +16,7 @@ export default function PostPage() {
             .then((postInfo) => {
                 setPostInfo(postInfo);
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [id]);
 
     if (!postInfo) return null;
 
