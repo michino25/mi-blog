@@ -22,9 +22,6 @@ app.use(
     cors({
         credentials: true,
         origin: process.env.FRONTEND_URL,
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        allowedHeaders: "Content-Type,Authorization",
-        optionsSuccessStatus: 200, // Set the status code for successful preflight requests
     })
 );
 // app.use(cors());
@@ -59,7 +56,7 @@ app.post("/login", async (req, res) => {
         // logged in
         jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
             if (err) throw err;
-            res.cookie("token", token).json({
+            res.cookie.set("token", token).json({
                 id: userDoc._id,
                 username,
             });
