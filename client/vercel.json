@@ -1,7 +1,27 @@
 {
     "routes": [
         {
-            "src": "/(.*)",
+            "src": "/",
+            "dest": "/"
+        },
+        {
+            "src": "/login",
+            "dest": "/"
+        },
+        {
+            "src": "/register",
+            "dest": "/"
+        },
+        {
+            "src": "/create",
+            "dest": "/"
+        },
+        {
+            "src": "/post/:id",
+            "dest": "/"
+        },
+        {
+            "src": "/edit/:id",
             "dest": "/"
         }
     ]
