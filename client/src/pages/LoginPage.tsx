@@ -1,24 +1,14 @@
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export default function LoginPage() {
     const { setUserInfo } = useContext(UserContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [redirect, setRedirect] = useState(false);
-
-    const setCookie = (name: string, data: string, expireDay: number) => {
-        // Calculate the expiration date
-        const expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + expireDay);
-
-        // Format the expiration date in GMT format
-        const expires = expirationDate.toUTCString();
-
-        // Set the cookie with the calculated expiration
-        document.cookie = `${name}=${data}; expires=${expires}; path=/`;
-    };
 
     async function login(e: React.FormEvent) {
         e.preventDefault();
@@ -33,7 +23,7 @@ export default function LoginPage() {
         if (response.ok) {
             setRedirect(true);
             response.json().then((userInfo) => {
-                setCookie("token", userInfo.token, 1);
+                cookies.set("token", userInfo.token, { path: "/" });
                 setUserInfo(userInfo);
             });
         } else {

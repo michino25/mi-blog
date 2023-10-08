@@ -1,6 +1,8 @@
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 export default function Header() {
     const { userInfo, setUserInfo } = useContext(UserContext);
@@ -11,7 +13,9 @@ export default function Header() {
                 const response = await fetch(
                     import.meta.env.VITE_API_URL + "/profile",
                     {
-                        credentials: "include",
+                        method: "POST",
+                        body: JSON.stringify({ token: cookies.get("token") }),
+                        headers: { "Content-Type": "application/json" },
                     }
                 );
 
@@ -24,18 +28,14 @@ export default function Header() {
             }
         }
 
-        fetchUserInfo();
+        if (!userInfo?.username !== null) fetchUserInfo();
 
         // Suppress the ESLint warning: Disable the ESLint Rule for the next Line
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function logout() {
-        fetch(import.meta.env.VITE_API_URL + "/logout", {
-            credentials: "include",
-            method: "POST",
-        });
-
+        cookies.set("token", "", { path: "/" });
         setUserInfo({});
     }
 

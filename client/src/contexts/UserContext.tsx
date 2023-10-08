@@ -8,6 +8,7 @@ interface Props {
 interface UserInfo {
     id?: string;
     username?: string;
+    token?: string;
 }
 
 // Define the context type
