@@ -3,13 +3,13 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-// const multer = require("multer");
+const multer = require("multer");
 const fs = require("fs");
 
 const dotevn = require("dotenv");
 dotevn.config();
 
-// const uploadMiddleware = multer({ dest: "uploads/" });
+const uploadMiddleware = multer({ dest: "uploads/" });
 
 const mongoose = require("mongoose");
 const User = require("./models/User");
@@ -75,7 +75,7 @@ app.get("/profile", (req, res) => {
     });
 });
 
-app.post("/post", async (req, res) => {
+app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
     // rename file extension
     const { originalname, path } = req.file;
     const parts = originalname.split(".");
@@ -115,7 +115,7 @@ app.get("/post/:id", async (req, res) => {
     res.json(postDoc);
 });
 
-app.put("/post", async (req, res) => {
+app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
     let newPath = null;
     if (req.file) {
         const { originalname, path } = req.file;
