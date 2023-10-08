@@ -6,6 +6,9 @@ const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const fs = require("fs");
 
+const dotevn = require("dotenv");
+dotevn.config();
+
 const uploadMiddleware = multer({ dest: "uploads/" });
 
 const mongoose = require("mongoose");
@@ -15,15 +18,13 @@ const Post = require("./models/Post");
 const app = express();
 
 // khi dùng credential phải thêm vài thông tin vào cors
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
 // app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-mongoose.connect(
-    "mongodb+srv://nguyennhutrungnnt:tbZkrOZrLBK3sA4O@cluster0.xhivpkz.mongodb.net/?retryWrites=true&w=majority"
-);
+mongoose.connect(process.env.MONGO_CONNECT_STRING);
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "asdfe45we45w345wegw345werjktjwertkj";
@@ -159,4 +160,4 @@ app.get("/test", (req, res) => {
     res.json("test ok");
 });
 
-app.listen(4000);
+app.listen(process.env.API_PORT);

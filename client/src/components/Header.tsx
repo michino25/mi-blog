@@ -8,9 +8,12 @@ export default function Header() {
     useEffect(() => {
         async function fetchUserInfo() {
             try {
-                const response = await fetch("http://localhost:4000/profile", {
-                    credentials: "include",
-                });
+                const response = await fetch(
+                    import.meta.env.VITE_API_URL + "/profile",
+                    {
+                        credentials: "include",
+                    }
+                );
 
                 if (response.ok) {
                     const userInfo = await response.json();
@@ -28,7 +31,7 @@ export default function Header() {
     }, []);
 
     function logout() {
-        fetch("http://localhost:4000/logout", {
+        fetch(import.meta.env.VITE_API_URL + "/logout", {
             credentials: "include",
             method: "POST",
         });

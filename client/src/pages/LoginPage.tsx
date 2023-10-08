@@ -11,7 +11,7 @@ export default function LoginPage() {
     async function login(e: React.FormEvent) {
         e.preventDefault();
 
-        const response = await fetch("http://localhost:4000/login", {
+        const response = await fetch(import.meta.env.VITE_API_URL + "/login", {
             method: "POST",
             body: JSON.stringify({ username, password }),
             headers: { "Content-Type": "application/json" },
