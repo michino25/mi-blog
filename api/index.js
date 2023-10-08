@@ -75,6 +75,7 @@ app.get("/profile", (req, res) => {
     });
 });
 
+// file handle
 app.post("/post", async (req, res) => {
     // rename file extension
     const { originalname, path } = req.file;
@@ -115,6 +116,7 @@ app.get("/post/:id", async (req, res) => {
     res.json(postDoc);
 });
 
+// file handle
 app.put("/post", async (req, res) => {
     let newPath = null;
     if (req.file) {
