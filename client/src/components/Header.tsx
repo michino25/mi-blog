@@ -28,7 +28,9 @@ export default function Header() {
             }
         }
 
-        if (!userInfo?.username !== null) fetchUserInfo();
+        if (!userInfo || Object.keys(userInfo).length === 0) {
+            fetchUserInfo();
+        }
 
         // Suppress the ESLint warning: Disable the ESLint Rule for the next Line
         // eslint-disable-next-line react-hooks/exhaustive-deps
