@@ -1,8 +1,7 @@
 {
-    "framework": "vite",
     "routes": [
         {
-            "src": "/",
+            "src": "/(.*)",
             "dest": "/"
         }
     ]
