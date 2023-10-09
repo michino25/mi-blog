@@ -72,6 +72,11 @@ div.post div.image img {
 div.post div.texts h2 {
     margin: 0;
     font-size: 2rem;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 div.post div.texts a {
     text-decoration: none;
@@ -91,6 +96,11 @@ div.post p.info a.author {
 div.post p.summary {
     margin: 10px 0;
     line-height: 1.8rem;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 form.login,
