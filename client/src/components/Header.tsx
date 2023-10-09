@@ -48,7 +48,7 @@ export default function Header() {
     return (
         <header>
             <Link to="/" className="logo">
-                MyBlog
+                miBlog
             </Link>
             <nav>
                 {userInfo?.username ? (
