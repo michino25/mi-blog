@@ -25,13 +25,9 @@ export default function TestPage() {
         // console.log(await imgurUpload(file));
 
         imgurUpload(file).then((response) => {
-            if (response) {
-                console.log(response);
-                setMessage(response);
-                alert("Image was uploaded successfully");
-            } else {
-                alert("Unable to upload image");
-            }
+            console.log(response);
+            setMessage(response);
+            alert("Image was uploaded successfully");
         });
     };
 

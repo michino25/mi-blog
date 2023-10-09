@@ -54,7 +54,8 @@ export default function PostPage() {
             )}
             <div className="image">
                 <img
-                    src={import.meta.env.VITE_API_URL + "/" + postInfo.cover}
+                    // src={import.meta.env.VITE_API_URL + "/" + postInfo.cover}
+                    src={postInfo.cover}
                 />
             </div>
             <div

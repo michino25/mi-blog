@@ -5,23 +5,19 @@ export default async function imgurUpload(file: File) {
     const data = new FormData();
     data.append("image", file);
 
-    try {
-        const response = await fetch("https://api.imgur.com/3/image/", {
-            method: "POST",
-            body: data,
-            headers: {
-                Authorization: auth,
-            },
-        });
+    const response = await fetch("https://api.imgur.com/3/image/", {
+        method: "POST",
+        body: data,
+        headers: {
+            Authorization: auth,
+        },
+    });
 
-        if (response.ok) {
-            const data = await response.json();
-            return data.data.link;
-        } else {
-            return "";
-        }
-    } catch (error) {
-        return "";
+    if (response.ok) {
+        const data = await response.json();
+        return data.data.link;
+    } else {
+        throw new Error("An error has occurred");
     }
 }
 
