@@ -21,7 +21,11 @@ export default function Header() {
 
                 if (response.ok) {
                     const userInfo = await response.json();
-                    setUserInfo(userInfo);
+                    if (!userInfo.error) {
+                        setUserInfo(userInfo);
+                    } else {
+                        console.log(userInfo.error);
+                    }
                 }
             } catch (e) {
                 console.log(e);

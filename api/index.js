@@ -21,7 +21,7 @@ const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: process.env.FRONTEND_URL,
+        origin: [process.env.FRONTEND_URL, "http://192.168.2.4:3000"],
     })
 );
 // app.use(cors());
@@ -72,7 +72,7 @@ app.post("/profile", (req, res) => {
     const { token } = req.body;
 
     jwt.verify(token, secret, {}, (err, info) => {
-        if (err) throw err;
+        if (err) res.json({ error: "Unable to retrieve login information." });
         res.json(info);
     });
 });
