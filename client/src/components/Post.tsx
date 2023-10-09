@@ -30,7 +30,7 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
                         {format(new Date(createdAt), "d MMM yyyy HH:mm")}
                     </time>
                 </p>
-                <p className="summary">{summary}</p>
+                <p className="summary line-clamp-2">{summary}</p>
             </div>
         </div>
     );
