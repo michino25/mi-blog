@@ -25,43 +25,123 @@ export default function PostPage() {
     if (!postInfo) return null;
 
     return (
-        <div className="post-page">
-            <h1>{postInfo.title}</h1>
-            <time>
-                {format(new Date(postInfo.createdAt), "d MMM yyyy HH:mm")}
-            </time>
-            <div className="author">by @{postInfo.author.username}</div>
-            {userInfo.id === postInfo.author._id && (
-                <div className="edit-row">
-                    <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6"
+        <div className="flex justify-center">
+            <div className="max-w-4xl">
+                <div className="px-24 my-8">
+                    <time className="font-normal text-sm text-gray-600">
+                        {format(new Date(postInfo.createdAt), "d MMM yyyy")}
+                    </time>
+                    <div className="uppercase text-sm font-medium my-2 text-blue-700">
+                        Du lịch - trải nghiệm
+                    </div>
+                    <h1 className="text-4xl font-bold my-4">
+                        {postInfo.title}
+                    </h1>
+                    <p className="font-normal text-base block text-gray-500 my-5">
+                        {postInfo.summary}
+                    </p>
+
+                    <div className="flex justify-between">
+                        <Link
+                            className="flex items-center"
+                            to="/vn/thong-tin-ca-nhan/rachel-vo"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                            <img
+                                className="rounded-full mr-2"
+                                src="https://img.vietcetera.com/uploads/avatar-images/18-sep-2023/user-1695023589471-160x160.jpg"
+                                width="36"
+                                height="36"
                             />
-                        </svg>
-                        Edit this post
-                    </Link>
+                            <p className="text-base font-semibold text-zinc-700">
+                                @{postInfo.author.username}
+                            </p>
+                        </Link>
+                        <div className="flex">
+                            <div className="flex gap-3 text-gray-500 p-2">
+                                <div className="flex items-center">
+                                    {/* https://www.svgrepo.com/svg/448188/triangle?edit=true */}
+                                    <svg
+                                        viewBox="-1.6 -1.6 19.20 19.20"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        className="w-4 h-4 mr-1"
+                                    >
+                                        <path
+                                            fill="currentColor"
+                                            d="M8 1.25a2.101 2.101 0 00-1.785.996l.64.392-.642-.388-5.675 9.373-.006.01a2.065 2.065 0 00.751 2.832c.314.183.67.281 1.034.285h11.366a2.101 2.101 0 001.791-1.045 2.064 2.064 0 00-.006-2.072L9.788 2.25l-.003-.004A2.084 2.084 0 008 1.25z"
+                                        ></path>
+                                    </svg>
+                                    <span className="upVote text-gray-600 text-sm">
+                                        35
+                                    </span>
+                                </div>
+                                <div className="flex items-center">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        className="w-4 h-4 mr-1"
+                                    >
+                                        <path
+                                            fill="currentColor"
+                                            fill-rule="evenodd"
+                                            d="M2 6a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7.667a1 1 0 0 0-.6.2L3.6 21.8A1 1 0 0 1 2 21V6zm5 0a1 1 0 0 0 0 2h10a1 1 0 1 0 0-2H7zm0 4a1 1 0 1 0 0 2h10a1 1 0 1 0 0-2H7zm0 4a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2H7z"
+                                            clip-rule="evenodd"
+                                        ></path>
+                                    </svg>
+                                    <span className="comment text-gray-600 text-sm">
+                                        24
+                                    </span>
+                                </div>
+
+                                {userInfo.id === postInfo.author._id && (
+                                    <Link
+                                        to={`/edit/${postInfo._id}`}
+                                        className="edit-btn inline-flex items-center"
+                                    >
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            className="w-4 h-4 mr-1"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M12 21C12 20.4477 12.4477 20 13 20H21C21.5523 20 22 20.4477 22 21C22 21.5523 21.5523 22 21 22H13C12.4477 22 12 21.5523 12 21Z"
+                                                fill="currentColor"
+                                            ></path>
+                                            <path
+                                                fill-rule="evenodd"
+                                                clip-rule="evenodd"
+                                                d="M20.7736 8.09994C22.3834 6.48381 22.315 4.36152 21.113 3.06183C20.5268 2.4281 19.6926 2.0233 18.7477 2.00098C17.7993 1.97858 16.8167 2.34127 15.91 3.09985C15.8868 3.11925 15.8645 3.13969 15.8432 3.16111L2.87446 16.1816C2.31443 16.7438 2 17.5051 2 18.2987V19.9922C2 21.0937 2.89197 22 4.00383 22H5.68265C6.48037 22 7.24524 21.6823 7.80819 21.1171L20.7736 8.09994ZM17.2071 5.79295C16.8166 5.40243 16.1834 5.40243 15.7929 5.79295C15.4024 6.18348 15.4024 6.81664 15.7929 7.20717L16.7929 8.20717C17.1834 8.59769 17.8166 8.59769 18.2071 8.20717C18.5976 7.81664 18.5976 7.18348 18.2071 6.79295L17.2071 5.79295Z"
+                                                fill="currentColor"
+                                            ></path>
+                                        </svg>
+                                        <span className="text-gray-600 text-sm">
+                                            Chỉnh sửa
+                                        </span>
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            )}
-            <div className="image">
-                <img
-                    // src={import.meta.env.VITE_API_URL + "/" + postInfo.cover}
-                    src={postInfo.cover}
-                />
+
+                <div className="relative w-full overflow-hidden pb-[56.25%] my-6">
+                    <img
+                        src={postInfo.cover}
+                        className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-2xl"
+                    />
+                </div>
+
+                <div className="px-48 my-8">
+                    <div
+                        className="content"
+                        dangerouslySetInnerHTML={{ __html: postInfo.content }}
+                    />
+                </div>
             </div>
-            <div
-                className="content"
-                dangerouslySetInnerHTML={{ __html: postInfo.content }}
-            />
         </div>
     );
 }
