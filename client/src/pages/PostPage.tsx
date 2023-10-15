@@ -6,6 +6,17 @@ import { UserContext } from "../contexts/UserContext";
 import Post from "../components/Post";
 
 export default function PostPage() {
+    const globalStyles = `
+        div.content p {
+            line-height: 1.7rem;
+            margin: 30px 0;
+        }
+
+        div.content li {
+            margin-bottom: 10px;
+        }
+    `;
+
     const [postInfo, setPostInfo] = useState<Post>();
     const { userInfo } = useContext(UserContext);
     const { id } = useParams();
@@ -136,6 +147,7 @@ export default function PostPage() {
                 </div>
 
                 <div className="px-48 my-8">
+                    <style>{globalStyles}</style>
                     <div
                         className="content"
                         dangerouslySetInnerHTML={{ __html: postInfo.content }}

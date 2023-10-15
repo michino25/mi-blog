@@ -99,7 +99,7 @@ export default function Header() {
                                     src="/miBlog-128.png"
                                     className="h-8 mr-2"
                                 />
-                                <span className="self-center text-xl font-bold sm:text-2xl whitespace-nowrap dark:text-white">
+                                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                                     miBlog
                                 </span>
                             </Link>
