@@ -9,7 +9,7 @@ interface Props {
 export default function Editor({ value, onChange }: Props) {
     const modules = {
         toolbar: [
-            [{ header: [1, 2, false] }],
+            [{ header: [2, 3, false] }],
             ["bold", "italic", "underline", "strike", "blockquote"],
             [
                 { list: "ordered" },
@@ -17,19 +17,18 @@ export default function Editor({ value, onChange }: Props) {
                 { indent: "-1" },
                 { indent: "+1" },
             ],
-            ["link", "image"],
+            // ["link", "image"],
+            ["link"],
             ["clean"],
         ],
     };
 
     return (
-        <div className="content">
-            <ReactQuill
-                value={value}
-                theme={"snow"}
-                onChange={onChange}
-                modules={modules}
-            />
-        </div>
+        <ReactQuill
+            value={value}
+            theme={"snow"}
+            onChange={onChange}
+            modules={modules}
+        />
     );
 }

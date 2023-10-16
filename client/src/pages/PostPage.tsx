@@ -6,18 +6,9 @@ import { UserContext } from "../contexts/UserContext";
 import Post from "../components/Post";
 
 export default function PostPage() {
-    const globalStyles = `
-        div.content p {
-            line-height: 1.7rem;
-            margin: 30px 0;
-        }
-
-        div.content li {
-            margin-bottom: 10px;
-        }
-    `;
-
     const [postInfo, setPostInfo] = useState<Post>();
+    const [like, setLike] = useState(35);
+    const [liked, setLiked] = useState(false);
     const { userInfo } = useContext(UserContext);
     const { id } = useParams();
 
@@ -33,12 +24,22 @@ export default function PostPage() {
         }
     }, [id]);
 
+    const likeHandle = () => {
+        if (liked) {
+            setLiked(false);
+            setLike(like - 1);
+        } else {
+            setLiked(true);
+            setLike(like + 1);
+        }
+    };
+
     if (!postInfo) return null;
 
     return (
-        <div className="flex justify-center">
-            <div className="max-w-4xl">
-                <div className="px-24 my-8">
+        <div className="post-page flex justify-center">
+            <div className="max-w-4xl flex flex-col items-center justify-center">
+                <div className="px-24 my-8 w-full">
                     <time className="font-normal text-sm text-gray-600">
                         {format(new Date(postInfo.createdAt), "d MMM yyyy")}
                     </time>
@@ -48,9 +49,7 @@ export default function PostPage() {
                     <h1 className="text-4xl font-bold my-4">
                         {postInfo.title}
                     </h1>
-                    <p className="font-normal text-base block text-gray-500 my-5">
-                        {postInfo.summary}
-                    </p>
+                    <p className="summary">{postInfo.summary}</p>
 
                     <div className="flex justify-between">
                         <Link
@@ -69,13 +68,20 @@ export default function PostPage() {
                         </Link>
                         <div className="flex">
                             <div className="flex gap-3 text-gray-500 p-2">
-                                <div className="flex items-center">
+                                {/* upvote */}
+                                <button
+                                    onClick={likeHandle}
+                                    className="cursor-pointer py-2 pl-4 pr-4 rounded-full flex items-center text-gray-500 hover:text-gray-900 border border-gray-300 hover:border-gray-300 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
+                                >
                                     {/* https://www.svgrepo.com/svg/448188/triangle?edit=true */}
                                     <svg
                                         viewBox="-1.6 -1.6 19.20 19.20"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
-                                        className="w-4 h-4 mr-1"
+                                        className={
+                                            "w-4 h-4 mr-1 " +
+                                            (liked && "text-blue-600")
+                                        }
                                     >
                                         <path
                                             fill="currentColor"
@@ -83,10 +89,12 @@ export default function PostPage() {
                                         ></path>
                                     </svg>
                                     <span className="upVote text-gray-600 text-sm">
-                                        35
+                                        {like}
                                     </span>
-                                </div>
-                                <div className="flex items-center">
+                                </button>
+
+                                {/* comment */}
+                                <div className="cursor-pointer py-2 pl-4 pr-4 rounded-full flex items-center text-gray-500 hover:text-gray-900 border border-gray-300 hover:border-gray-300 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
                                     <svg
                                         viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -105,10 +113,11 @@ export default function PostPage() {
                                     </span>
                                 </div>
 
+                                {/* edit */}
                                 {userInfo.id === postInfo.author._id && (
                                     <Link
                                         to={`/edit/${postInfo._id}`}
-                                        className="edit-btn inline-flex items-center"
+                                        className="cursor-pointer py-2 pl-3 pr-4 rounded-full flex items-center text-gray-500 hover:text-gray-900 border border-gray-300 hover:border-gray-300 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
                                     >
                                         <svg
                                             viewBox="0 0 24 24"
@@ -139,17 +148,16 @@ export default function PostPage() {
                     </div>
                 </div>
 
-                <div className="relative w-full overflow-hidden pb-[56.25%] my-6">
+                <div className="relative w-[950px] overflow-hidden pb-[40%] my-4">
                     <img
                         src={postInfo.cover}
                         className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-2xl"
                     />
                 </div>
 
-                <div className="px-48 my-8">
-                    <style>{globalStyles}</style>
+                <div className="px-40 my-2 w-full">
                     <div
-                        className="content"
+                        className="post-content"
                         dangerouslySetInnerHTML={{ __html: postInfo.content }}
                     />
                 </div>

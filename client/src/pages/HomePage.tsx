@@ -10,15 +10,20 @@ export default function HomePage() {
         fetch(import.meta.env.VITE_API_URL + "/post")
             .then((response) => response.json())
             .then((posts) => {
-                setPosts(posts);
-
                 // Shuffle the posts array
                 const shuffledPosts = [...posts].sort(
                     () => 0.5 - Math.random()
                 );
 
+                setPosts(shuffledPosts);
+
+                const positionRand = Math.floor(
+                    Math.random() * (posts.length - 3)
+                );
                 // Get the first 3 posts from the shuffled array
-                setHighlightPosts(shuffledPosts.slice(0, 3));
+                setHighlightPosts(
+                    shuffledPosts.slice(positionRand, positionRand + 3)
+                );
             });
     }, []);
 
