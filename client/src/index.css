@@ -6,34 +6,34 @@
 /* text editor */
 .ql-toolbar.ql-snow,
 .ql-container.ql-snow {
-    border: none;
-    font-family: inherit;
+  border: none;
+  font-family: inherit;
 }
 
 .post-page .summary {
-    @apply font-normal text-xl block text-gray-500 my-5 font-merriweather;
+  @apply font-normal text-lg md:text-xl block text-gray-500 my-5 font-merriweather;
 }
 
 div.post-content h2,
 .ql-snow .ql-editor h2 {
-    @apply text-3xl font-medium dark:text-white my-5 font-sans;
+  @apply text-3xl font-medium dark:text-white my-5 font-sans;
 }
 
 div.post-content h3,
 .ql-snow .ql-editor h3 {
-    @apply text-xl font-medium dark:text-white my-5 font-sans;
+  @apply text-xl font-medium dark:text-white my-5 font-sans;
 }
 
 div.post-content p,
 .ql-editor p {
-    @apply text-base text-slate-700/90 dark:text-gray-400 my-5 font-sans;
+  @apply text-base text-slate-700/90 dark:text-gray-400 my-5 font-sans;
 }
 
 div.post-content blockquote,
 .ql-snow .ql-editor blockquote {
-    @apply p-4 my-4 border-l-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800 text-base italic font-medium leading-relaxed text-gray-600 dark:text-white;
+  @apply p-4 my-4 border-l-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800 text-base italic font-medium leading-relaxed text-gray-600 dark:text-white;
 }
 
 div.post-content p {
-    @apply font-merriweather tracking-wide text-lg;
+  @apply font-merriweather tracking-wide text-base md:text-lg;
 }
