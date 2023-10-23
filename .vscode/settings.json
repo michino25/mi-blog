@@ -12,9 +12,9 @@
     "client\\tsconfig.node.json": true,
     "client\\vite.config.ts": true,
     "client\\yarn-error.log": true,
-    "api\\package.json": true,
     "api\\yarn.lock": true,
     "client\\yarn.lock": true,
-    ".vscode": true
+    ".vscode": true,
+    "api\\package.json": true
   }
 }
