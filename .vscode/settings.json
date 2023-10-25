@@ -1,12 +1,9 @@
 {
   "files.exclude": {
-    "api\\node_modules": true,
-    "api\\.gitignore": true,
     "client\\node_modules": true,
     "client\\src\\vite-env.d.ts": true,
     "client\\.eslintrc.cjs": true,
     "client\\.gitignore": true,
-    "client\\package.json": true,
     "client\\postcss.config.js": true,
     "client\\tsconfig.json": true,
     "client\\tsconfig.node.json": true,
@@ -15,6 +12,12 @@
     "api\\yarn.lock": true,
     "client\\yarn.lock": true,
     ".vscode": true,
-    "api\\package.json": true
+    "api\\node_modules": true,
+    "api\\.gitignore": true,
+    "api\\index_old.js": true,
+    "api\\index_restore.js": true,
+    "api\\vercel.json": true,
+    "api\\package.json": true,
+    "client\\package.json": true
   }
 }

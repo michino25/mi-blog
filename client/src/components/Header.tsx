@@ -11,43 +11,14 @@ export default function Header() {
   const [profile, setProfile] = useState(false);
 
   useEffect(() => {
-    async function fetchUserInfo() {
-      try {
-        const response = await fetch(
-          import.meta.env.VITE_API_URL + "/profile",
-          {
-            method: "POST",
-            body: JSON.stringify({ token: cookies.get("token") }),
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
-        if (response.ok) {
-          const userInfo = await response.json();
-          if (!userInfo.error) {
-            setUserInfo(userInfo);
-          } else {
-            console.log(userInfo.error);
-          }
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    if (!userInfo || Object.keys(userInfo).length === 0) {
-      fetchUserInfo();
-    }
-
-    // Suppress the ESLint warning: Disable the ESLint Rule for the next Line
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setUserInfo(cookies.get("user"));
   }, []);
 
   const buttonRef = useRef(null);
 
   function logout() {
     setProfile(false);
-    cookies.set("token", "", { path: "/" });
+    cookies.set("user", "", { path: "/" });
     setUserInfo({});
   }
 
@@ -237,13 +208,13 @@ export default function Header() {
                   <div className="relative flex items-center mx-3">
                     <button
                       type="button"
-                      className="flex text-sm bg-gray-800 rounded-full focus:ring-0"
+                      className="flex text-sm bg-gray-800 overflow-hidden border-1 border-gray-100 rounded-full focus:ring-0"
                       onClick={() => setProfile(!profile)}
                       onBlur={blurHandle}
                     >
                       <img
-                        className="w-8 h-8 rounded-full"
-                        src="https://img.vietcetera.com/uploads/avatar-images/18-sep-2023/user-1695023589471-160x160.jpg"
+                        className="w-8 h-8"
+                        src={userInfo.profilePic}
                         alt="user photo"
                       />
                     </button>
@@ -258,7 +229,7 @@ export default function Header() {
                           {userInfo.username}
                         </p>
                         <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
-                          test@gmail.com
+                          {userInfo.email}
                         </p>
                       </div>
                       <ul className="py-1">

@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Infobar from "../components/Infobar";
 import Post from "../components/Post";
+import { api, useFetch } from "../utils/fetch";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [highlightPosts, setHighlightPosts] = useState<Post[]>([]);
+  // const { search } = useLocation();
 
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + "/post")
-      .then((response) => response.json())
-      .then((posts) => {
-        // Shuffle the posts array
-        const shuffledPosts = [...posts].sort(() => 0.5 - Math.random());
+  useFetch(async () => {
+    const res = await api.get("/posts");
+    // console.log(res.data);
 
-        setPosts(shuffledPosts);
+    fillPost(res.data);
+  });
 
-        if (posts.length > 6) {
-          const positionRand = Math.floor(Math.random() * (posts.length - 6));
-          // Get the first 3 posts from the shuffled array
-          setHighlightPosts(
-            shuffledPosts.slice(positionRand, positionRand + 6)
-          );
-        } else setHighlightPosts(shuffledPosts);
-      });
-  }, []);
+  const fillPost = (posts: Post[]) => {
+    const shuffledPosts = [...posts].sort(() => 0.5 - Math.random());
+
+    setPosts(shuffledPosts);
+
+    if (posts.length > 6) {
+      const positionRand = Math.floor(Math.random() * (posts.length - 6));
+      // Get the first 3 posts from the shuffled array
+      setHighlightPosts(shuffledPosts.slice(positionRand, positionRand + 6));
+    } else setHighlightPosts(shuffledPosts);
+  };
 
   return (
     <>

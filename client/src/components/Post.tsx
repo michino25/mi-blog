@@ -1,35 +1,18 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Post } from "../utils/model";
 
-interface Post {
-  _id: string;
-  summary: string;
-  cover: string;
-  createdAt: string;
-  author: { username: string; _id: string };
-  title: string;
-  content: string;
-}
-
-const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
-  const [topics] = useState([
-    "Quan điểm - Tranh luận",
-    "Lịch sử",
-    "Thinking Out Loud",
-    "Tâm lý học",
-    "Giáo dục",
-    "Tâm sự",
-    "Cuộc sống",
-    "Du lịch - trải nghiệm",
-    "Tình yêu",
-    "Triết học",
-    "Sách",
-    "Công nghệ mới",
-    "Blockchain",
-  ]);
-
-  // const [colors] = useState(["green", "cyan", "indigo", "red"]);
+const Post = ({
+  _id,
+  title,
+  summary,
+  photo,
+  createdAt,
+  author,
+  upvote,
+  category,
+}: Post) => {
   const [colors] = useState([
     "gray",
     "red",
@@ -43,18 +26,15 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
     "pink",
   ]);
 
-  const [randomTopic, setRandomTopic] = useState("");
   const [randomColor, setRandomColor] = useState("");
 
   useEffect(() => {
-    const randTopicIndex = Math.floor(Math.random() * topics.length);
     const randColorIndex = Math.floor(Math.random() * colors.length);
 
-    setRandomTopic(topics[randTopicIndex]);
     setRandomColor(
       `text-${colors[randColorIndex]}-700 bg-${colors[randColorIndex]}-100 border-${colors[randColorIndex]}-500 hover:bg-${colors[randColorIndex]}-200`
     );
-  }, [topics, colors]);
+  }, [colors]);
 
   return (
     <>
@@ -63,7 +43,7 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
           <div className="relative w-full overflow-hidden pb-[40%] lg:pb-[56%] xl:pb-[76%]">
             <img
               className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-xl"
-              src={cover}
+              src={photo}
             />
           </div>
         </Link>
@@ -76,7 +56,7 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
               " uppercase border focus:outline-none focus:ring-0 font-semibold rounded-full text-xs px-3 py-1"
             }
           >
-            {randomTopic}
+            {category.name}
           </button>
         </div>
 
@@ -93,16 +73,16 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
 
         <div className="flex justify-between items-center pb-5 md:pb-8 px-6 mt-auto">
           <div className="flex">
-            <Link className="mr-2" to="/vn/thong-tin-ca-nhan/rachel-vo">
+            <Link className="mr-2" to={"/user/" + author.username}>
               <img
                 className="rounded-full"
-                src="https://img.vietcetera.com/uploads/avatar-images/18-sep-2023/user-1695023589471-160x160.jpg"
+                src={author.profilePic}
                 width="44"
                 height="44"
               />
             </Link>
             <div className="pl-1">
-              <Link to="/vn/thong-tin-ca-nhan/rachel-vo" target="_blank">
+              <Link to={"/user/" + author.username}>
                 <p className="text-base font-semibold text-zinc-600">
                   @{author.username}
                 </p>
@@ -127,7 +107,9 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
                   d="M8 1.25a2.101 2.101 0 00-1.785.996l.64.392-.642-.388-5.675 9.373-.006.01a2.065 2.065 0 00.751 2.832c.314.183.67.281 1.034.285h11.366a2.101 2.101 0 001.791-1.045 2.064 2.064 0 00-.006-2.072L9.788 2.25l-.003-.004A2.084 2.084 0 008 1.25z"
                 ></path>
               </svg>
-              <span className="upVote text-gray-600 text-sm">35</span>
+              <span className="upVote text-gray-600 text-sm">
+                {upvote.length}
+              </span>
             </div>
             <div className="flex items-center">
               <svg
@@ -143,7 +125,7 @@ const Post = ({ _id, title, summary, cover, createdAt, author }: Post) => {
                   clipRule="evenodd"
                 ></path>
               </svg>
-              <span className="comment text-gray-600 text-sm">24</span>
+              <span className="comment text-gray-600 text-sm">0</span>
             </div>
           </div>
         </div>

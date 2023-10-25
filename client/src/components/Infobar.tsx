@@ -1,22 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { api, useFetch } from "../utils/fetch";
+import { Category } from "../utils/model";
 
 export default function Infobar() {
-  const [topics] = useState([
-    "Quan điểm - Tranh luận",
-    "Lịch sử",
-    "Thinking Out Loud",
-    "Tâm lý học",
-    "Giáo dục",
-    "Tâm sự",
-    "Cuộc sống",
-    "Du lịch - trải nghiệm",
-    "Tình yêu",
-    "Triết học",
-    "Sách",
-    "Công nghệ mới",
-    "Blockchain",
-  ]);
+  const [topics, setTopics] = useState<Category[]>([]);
+
+  useFetch(async () => {
+    const res = await api.get("/categories");
+    setTopics(res.data);
+  });
 
   const [users] = useState([
     [
@@ -58,7 +51,7 @@ export default function Infobar() {
                 type="button"
                 className="text-gray-700 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-0 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2"
               >
-                {topic}
+                {topic.name}
               </button>
             ))}
         </div>

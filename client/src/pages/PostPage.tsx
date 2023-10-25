@@ -1,37 +1,48 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import Post from "../components/Post";
+import { api, useFetch } from "../utils/fetch";
 
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState<Post>();
-  const [like, setLike] = useState(35);
-  const [liked, setLiked] = useState(false);
+  const [upVote, setUpVote] = useState<string[]>([]);
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
 
-  useEffect(() => {
-    try {
-      fetch(import.meta.env.VITE_API_URL + "/post/" + id)
-        .then((response) => response.json())
-        .then((postInfo) => {
-          setPostInfo(postInfo);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }, [id]);
+  useFetch(async () => {
+    const res = await api.get("/posts/" + id);
+    setPostInfo(res.data);
+    setUpVote(res.data.upvote);
+    console.log(res.data);
+  });
 
-  const likeHandle = () => {
-    if (liked) {
-      setLiked(false);
-      setLike(like - 1);
-    } else {
-      setLiked(true);
-      setLike(like + 1);
-    }
+  const voteChange = async () => {
+    const newVote = toggleVote();
+    if (newVote)
+      try {
+        const res = await api.put("/posts/vote/" + id, {
+          upvote: newVote,
+        });
+        if (res.data) {
+          setUpVote(newVote);
+        }
+      } catch (err) {
+        console.log("Can't upvote");
+      }
+  };
+
+  const toggleVote = () => {
+    if (userInfo?._id)
+      if (upVote.includes(userInfo._id)) {
+        const updatedUpVote = upVote.filter((item) => item !== userInfo._id);
+        return updatedUpVote;
+      } else {
+        return [...upVote, userInfo._id];
+      }
+    return;
   };
 
   if (!postInfo) return null;
@@ -44,7 +55,7 @@ export default function PostPage() {
             {format(new Date(postInfo.createdAt), "d MMM yyyy")}
           </time>
           <div className="uppercase text-sm font-medium my-2 text-blue-700">
-            Du lịch - trải nghiệm
+            {postInfo.category.name}
           </div>
           <h1 className="text-4xl font-bold my-4">{postInfo.title}</h1>
           <p className="summary">{postInfo.summary}</p>
@@ -52,11 +63,11 @@ export default function PostPage() {
           <div className="flex justify-between flex-wrap gap-3">
             <Link
               className="flex items-center"
-              to="/vn/thong-tin-ca-nhan/rachel-vo"
+              to={"/user/" + postInfo.author.username}
             >
               <img
                 className="rounded-full mr-2"
-                src="https://img.vietcetera.com/uploads/avatar-images/18-sep-2023/user-1695023589471-160x160.jpg"
+                src={postInfo.author.profilePic}
                 width="36"
                 height="36"
               />
@@ -68,7 +79,7 @@ export default function PostPage() {
             <div className="flex flex-wrap gap-3 text-gray-500 -mx-2 p-2">
               {/* upvote */}
               <button
-                onClick={likeHandle}
+                onClick={voteChange}
                 className="cursor-pointer py-2 pl-4 pr-4 rounded-full flex items-center text-gray-500 hover:text-gray-900 border border-gray-300 hover:border-gray-300 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
               >
                 {/* https://www.svgrepo.com/svg/448188/triangle?edit=true */}
@@ -76,14 +87,21 @@ export default function PostPage() {
                   viewBox="-1.6 -1.6 19.20 19.20"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
-                  className={"w-4 h-4 mr-1 " + (liked && "text-blue-600")}
+                  className={
+                    "w-4 h-4 mr-1 " +
+                    (userInfo._id &&
+                      upVote.includes(userInfo._id) &&
+                      "text-blue-600")
+                  }
                 >
                   <path
                     fill="currentColor"
                     d="M8 1.25a2.101 2.101 0 00-1.785.996l.64.392-.642-.388-5.675 9.373-.006.01a2.065 2.065 0 00.751 2.832c.314.183.67.281 1.034.285h11.366a2.101 2.101 0 001.791-1.045 2.064 2.064 0 00-.006-2.072L9.788 2.25l-.003-.004A2.084 2.084 0 008 1.25z"
                   ></path>
                 </svg>
-                <span className="upVote text-gray-600 text-sm">{like}</span>
+                <span className="upVote text-gray-600 text-sm">
+                  {upVote.length}
+                </span>
               </button>
 
               {/* comment */}
@@ -101,11 +119,11 @@ export default function PostPage() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="comment text-gray-600 text-sm">24</span>
+                <span className="comment text-gray-600 text-sm">0</span>
               </div>
 
               {/* edit */}
-              {userInfo.id === postInfo.author._id && (
+              {userInfo._id === postInfo.author._id && (
                 <Link
                   to={`/edit/${postInfo._id}`}
                   className="cursor-pointer py-2 pl-3 pr-4 rounded-full flex items-center text-gray-500 hover:text-gray-900 border border-gray-300 hover:border-gray-300 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
@@ -138,7 +156,7 @@ export default function PostPage() {
 
         <div className="relative w-full lg:w-[950px] overflow-hidden pb-[60%] md:pb-[40%] my-4">
           <img
-            src={postInfo.cover}
+            src={postInfo.photo}
             className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-2xl"
           />
         </div>

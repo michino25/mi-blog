@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { api } from "../utils/fetch";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -10,16 +12,17 @@ export default function RegisterPage() {
   async function register(e: React.FormEvent) {
     e.preventDefault();
     if (repassword === password) {
-      const response = await fetch(import.meta.env.VITE_API_URL + "/register", {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (response.status === 200) {
-        alert("Đăng ký tài khoản thành công");
-        setRedirect(true);
-      } else {
+      try {
+        const res = await api.post("/auth/register", {
+          username,
+          password,
+          email,
+        });
+        if (res.data) {
+          alert("Đăng ký tài khoản thành công");
+          setRedirect(true);
+        }
+      } catch (err) {
         alert("Tài khoản đã tồn tại");
       }
     } else alert("Mật khẩu không trùng khớp");
@@ -31,7 +34,7 @@ export default function RegisterPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center md:px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center md:px-6 pt-8 mx-auto md:h-full pt:mt-0 dark:bg-gray-900">
         <a
           href="/"
           className="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white"
@@ -58,6 +61,23 @@ export default function RegisterPage() {
                 placeholder="username"
                 value={username}
                 onChange={(ev) => setUsername(ev.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="email"
+                value={email}
+                onChange={(ev) => setEmail(ev.target.value)}
                 required
               />
             </div>
