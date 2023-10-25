@@ -1,33 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { api, useFetch } from "../utils/fetch";
-import { Category } from "../utils/model";
+import { Category, UserInfo } from "../utils/model";
 
 export default function Infobar() {
   const [topics, setTopics] = useState<Category[]>([]);
+  const [users, setUsers] = useState<UserInfo[]>([]);
 
   useFetch(async () => {
-    const res = await api.get("/categories");
-    setTopics(res.data);
+    const cates = await api.get("/categories");
+    const users = await api.get("/users");
+    setTopics(cates.data);
+    setUsers(users.data.slice(0, 3));
   });
-
-  const [users] = useState([
-    [
-      "https://images.spiderum.com/sp-xs-avatar/dc5284506efd11edaa12915a4c0043eb.jpeg",
-      "Huskywannafly",
-      "When there's a will, there's a...",
-    ],
-    [
-      "https://images.spiderum.com/sp-xs-avatar/b54a6e406f3311e9b89da1d556449df3.jpg",
-      "Andy Luong",
-      "Until I feared I would lose, I never...",
-    ],
-    [
-      "https://images.spiderum.com/sp-xs-avatar/0a1679902b7011edb689a17f7b0ba31e.png",
-      "Tú Anh",
-      "Non nobis solum.",
-    ],
-  ]);
 
   return (
     <div className="lg:ml-4 flex flex-col">
@@ -91,25 +76,28 @@ export default function Infobar() {
                 <div className="flex">
                   <Link
                     className="mr-2 mt-1 flex-shrink-0"
-                    to="/vn/thong-tin-ca-nhan/rachel-vo"
+                    to={"/user/" + user.username}
                   >
-                    <img className="rounded-full w-8 h-8" src={user[0]} />
+                    <img
+                      className="rounded-full w-10 h-10"
+                      src={user.profilePic}
+                    />
                   </Link>
                   <div className="pl-1">
-                    <Link to="/vn/thong-tin-ca-nhan/rachel-vo" target="_blank">
+                    <Link to={"/user/" + user.username}>
                       <p className="text-base font-semibold text-zinc-600">
-                        {user[1]}
+                        {user.username}
                       </p>
                     </Link>
-                    <p className="text-sm text-zinc-500">{user[2]}</p>
+                    <p className="text-sm text-zinc-500">{user.email}</p>
                   </div>
                 </div>
-                <button
-                  type="button"
+                <Link
+                  to={"/user/" + user.username}
                   className="whitespace-nowrap text-gray-700 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-0 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2"
                 >
                   Theo dõi
-                </button>
+                </Link>
               </div>
             ))}
         </div>
