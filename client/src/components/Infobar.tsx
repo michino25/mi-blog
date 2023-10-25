@@ -46,13 +46,13 @@ export default function Infobar() {
         <div className="flex flex-wrap">
           {topics.length > 0 &&
             topics.map((topic, index) => (
-              <button
+              <Link
+                to={"/category/" + topic.code}
                 key={index}
-                type="button"
                 className="text-gray-700 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-0 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2"
               >
                 {topic.name}
-              </button>
+              </Link>
             ))}
         </div>
       </div>

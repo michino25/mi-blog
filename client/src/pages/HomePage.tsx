@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Infobar from "../components/Infobar";
-import Post from "../components/Post";
+import PostBlock from "../components/PostBlock";
 import { api, useFetch } from "../utils/fetch";
+import { Post } from "../utils/model";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -60,7 +61,7 @@ export default function HomePage() {
             {highlightPosts.length > 0 &&
               highlightPosts.map((post) => (
                 <div key={post._id} className="lg:w-1/2 xl:w-1/3 w-full p-2">
-                  <Post {...post} />
+                  <PostBlock {...post} />
                 </div>
               ))}
           </div>
@@ -89,7 +90,7 @@ export default function HomePage() {
               {posts.length > 0 &&
                 posts.map((post) => (
                   <div key={post._id} className="w-full xl:w-1/2 p-2">
-                    <Post {...post} />
+                    <PostBlock {...post} />
                   </div>
                 ))}
             </div>

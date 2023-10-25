@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
-import Post from "../components/Post";
 import { api, useFetch } from "../utils/fetch";
+import { Post } from "../utils/model";
 
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState<Post>();
@@ -54,9 +54,12 @@ export default function PostPage() {
           <time className="font-normal text-sm text-gray-600">
             {format(new Date(postInfo.createdAt), "d MMM yyyy")}
           </time>
-          <div className="uppercase text-sm font-medium my-2 text-blue-700">
+          <Link
+            to={"/category/" + postInfo.category.code}
+            className="flex uppercase text-sm font-medium my-2 text-blue-700"
+          >
             {postInfo.category.name}
-          </div>
+          </Link>
           <h1 className="text-4xl font-bold my-4">{postInfo.title}</h1>
           <p className="summary">{postInfo.summary}</p>
 

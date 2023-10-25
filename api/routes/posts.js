@@ -90,31 +90,16 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//GET ALL POSTS
+//SEARCH & GET ALL POSTS
 router.get("/", async (req, res) => {
-  try {
-    let posts = await Post.find()
-      .sort({ createdAt: -1 })
-      .limit(20)
-      .populate("author")
-      .populate("category");
-
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-//SEARCH POSTS
-router.get("/search", async (req, res) => {
-  const username = req.query.user;
+  const userName = req.query.user;
   const catName = req.query.category;
-  const postName = req.query.post;
+  const postName = req.query.search;
 
   try {
     let posts = [];
-    if (username) {
-      const user = await User.findOne({ username });
+    if (userName) {
+      const user = await User.findOne({ username: userName });
       if (user) {
         posts = await Post.find({ author: user._id })
           .populate("author")
@@ -136,6 +121,13 @@ router.get("/search", async (req, res) => {
         .populate("category");
     }
 
+    if (!(userName || catName || postName)) {
+      posts = await Post.find()
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .populate("author")
+        .populate("category");
+    }
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);

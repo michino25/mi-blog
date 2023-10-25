@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Post } from "../utils/model";
 
-const Post = ({
+export default function PostBlock({
   _id,
   title,
   summary,
@@ -12,7 +12,7 @@ const Post = ({
   author,
   upvote,
   category,
-}: Post) => {
+}: Post) {
   const [colors] = useState([
     "gray",
     "red",
@@ -49,15 +49,15 @@ const Post = ({
         </Link>
 
         <div className="px-6 mt-5">
-          <button
-            type="button"
+          <Link
+            to={"/category/" + category.code}
             className={
               randomColor +
               " uppercase border focus:outline-none focus:ring-0 font-semibold rounded-full text-xs px-3 py-1"
             }
           >
             {category.name}
-          </button>
+          </Link>
         </div>
 
         <div className="px-6 pt-3">
@@ -132,6 +132,4 @@ const Post = ({
       </div>
     </>
   );
-};
-
-export default Post;
+}

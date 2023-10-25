@@ -9,6 +9,7 @@ export default function Header() {
   const [darkmode, setDarkmode] = useState(false);
   const [noti, setNoti] = useState(false);
   const [profile, setProfile] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     setUserInfo(cookies.get("user"));
@@ -74,7 +75,7 @@ export default function Header() {
 
               {/* search */}
               <form
-                action="#"
+                action={"/search/" + search}
                 method="GET"
                 className="hidden lg:flex flex-1 lg:pr-8"
               >
@@ -96,6 +97,8 @@ export default function Header() {
                   <input
                     type="text"
                     name="search"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-full focus:ring-primary-500 focus:border-primary-500 block w-full pl-12 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Tìm kiếm"
                   />
